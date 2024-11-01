@@ -1,0 +1,130 @@
+/* RESET CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* IMPORTAÇÃO DE FONTES */
+  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=note_alt');
+  
+  /* VARIÁVEIS DE CORES */
+  :root {
+    --primary-color: #721738;
+    --secondary-color: #333;
+    --tertiary-color: #560e24;
+    --quaternary-color: #ffffff;
+    --quintenary-color: #66253d;
+  }
+  
+  /* ESTILO GLOBAL */
+  body {
+    font-family: "Lato", sans-serif;
+    background-image: url('../../assets/g10ok.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0.562); /* Ajuste para transparência */
+    background-blend-mode: lighten;
+    height: 100%;
+    background-attachment: fixed;
+}
+
+  
+  /* ESTILOS DO SIDEBAR */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 60px;
+    background: var(--tertiary-color);
+    padding: 6px 14px;
+    transition: all 0.5s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar.active {
+    width: 240px;
+  }
+  
+  .hamburger-menu {
+    cursor: pointer;
+    padding: 15px 0;
+  }
+  
+  .hamburger {
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    position: relative;
+  }
+  
+  .hamburger:before,
+  .hamburger:after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger:before {
+    top: -8px;
+  }
+  
+  .hamburger:after {
+    top: 8px;
+  }
+  
+  /* LISTA DE NAVEGAÇÃO */
+  .nav-list {
+    margin-top: 20px;
+    padding: 0;
+  }
+  
+  .nav-list li {
+    list-style: none;
+    margin: 8px 0;
+  }
+  
+  .nav-list li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--quaternary-color);
+    padding: 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  
+  .nav-list li a:hover {
+    background: #34495e;
+  }
+  
+  .nav-list li a i {
+    min-width: 30px;
+    font-size: 20px;
+  }
+  
+  .nav-list li a span {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .sidebar.active .nav-list li a span {
+    opacity: 1;
+  }
+  
+  /* AJUSTE DO CONTEÚDO PRINCIPAL */
+  .container {
+    margin-left: 60px;
+    transition: margin-left 0.5s ease;
+  }
+  
+  .sidebar.active + .container {
+    margin-left: 240px;
+  }
+  

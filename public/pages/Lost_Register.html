@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/Lost_Register.css" />
+    <title>Esqueceu o Registro</title>
+  </head>
+  <body>
+    <div class="container_form">
+      <form class="form" action="#" method="post">
+        <p class="form_text">Enviar email para recuperar a senha</p>
+
+        <div class="form_grupo">
+          <label for="e-mail" class="form_label">Email</label>
+          <input
+            type="email"
+            name="email"
+            class="form_input"
+            id="email"
+            placeholder="seuemail@email.com"
+            required
+          />
+        </div>
+
+        <div class="submit">
+          <input type="hidden" name="acao" value="enviar" />
+          <button type="submit" name="Submit" class="submit_btn">
+            Enviar email
+          </button>
+        </div>
+        <div>
+          <a href="index.html">Voltar</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

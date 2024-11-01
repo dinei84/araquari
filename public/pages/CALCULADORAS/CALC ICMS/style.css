@@ -1,0 +1,159 @@
+:root {
+    --primary-color: #721738;
+    --secondary-color: #333;
+    --tertiary-color: #560e24;
+    --quaternary-color: #fff;
+    --quintenary-color: #66253d;
+  }
+  
+
+body{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+h1{
+    margin-top: 25px;
+}
+main{
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    margin: auto;
+    margin-top: 25px;
+    padding: 5px;
+    border: 4px solid black;
+    border-radius: 10px;
+    box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.384);
+    
+
+    display: flex;    
+    flex-direction: column;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+header{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 70px;
+    text-align: center;
+}
+
+button{
+    width: 70px;
+    height: 40px;
+    border-radius: 26px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.642);
+}
+.botoes{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;    
+}
+.botoes :hover{    
+    cursor: pointer;
+    background-color: red;
+    border-radius: 26px;
+    color: white;
+}
+.botoes #limpar:hover{   
+    cursor: pointer;
+    background-color: green !important;
+    border-radius: 26px;
+    color:white;
+}
+
+.box_datalist{
+    width: 300px;
+    height: 35px;
+    font-size: 15px;
+    font-weight: bold;
+    /* background-color: aquamarine; */
+}
+
+#taxaICMSField {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+input{
+    width: 65px;
+    height: 25px;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+.box_datalist #valordoFrete{
+    margin-left: 2px;
+}
+.box_datalist #margem {
+    margin-left: 68px;
+}
+.box_datalist #estadoSaida {
+    margin-left: 10px;
+}
+.box_datalist #estadoDestino{
+    width: 135px;
+    height: 30px;
+    margin-left: 15px;
+    border: 2px solid black;
+    border-radius: 15px;
+    background-color: rgb(67, 16, 35);
+    color: white;
+    font-weight: bold;
+}
+.box_datalist #estadoSaida{
+    width: 135px;
+    height: 30px;
+    margin-left: 6px;
+    border: 2px solid black;
+    border-radius: 15px;
+    background-color: white;
+    color: rgb(67, 16, 35);
+    font-weight: bold;
+}
+.box_datalist #freteParaPJ{
+    margin-left: 22px;
+}
+.box_datalist #freteParaPF{
+    margin-left: 22px;
+}
+
+.buttonback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.bot3{
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    width: 85px;
+    height: 40px;
+    margin-top: 10px;
+    padding-top: 5px;
+    cursor: pointer;
+    font-size: larger;
+    font-weight: bolder;
+    color: var(--tertiary-color);
+}
+
+.imgback {
+    width: 30px;
+    height: 30px;
+    margin-left: -62px;
+    padding-top: 4px;
+    cursor: pointer;
+}
+

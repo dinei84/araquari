@@ -1,0 +1,52 @@
+:root {
+    --primary-color: #721738;
+    --secondary-color: #333;
+    --tertiary-color: #560e24;
+    --quaternary-color: #fff;
+    --quintenary-color: #66253d;
+}
+
+body{
+    text-align:center;
+  }
+  
+  .button{
+    position:relative;
+    display:inline-block;
+  }
+  
+  .button a{
+    color:white;
+    font-family:Helvetica, sans-serif;
+    font-weight:bold;
+    transform: scale(0.65);
+    transform-origin: center;
+    font-size:36px;
+    text-align: center;
+    text-decoration:none;
+    background-color:var(--quintenary-color);
+    display:block;
+    position:relative;
+    padding:20px 40px;
+    
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    
+    -webkit-box-shadow:inset 0 1px 0 #FFE5C4, 0 10px 0 #560e24;
+    -moz-box-shadow:inset 0 1px 0 #FFE5C4, 0 10px 0 #560e24;
+    box-shadow:inset 0 1px 0 #FFE5C4, 0 10px 0 #560e24;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+  
+  .button a:active{
+    top:10px;
+    background-color:var(--tertiary-color);
+    
+    -webkit-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #333;
+    -moz-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3pxpx 0 #333;
+    box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3p
+  }

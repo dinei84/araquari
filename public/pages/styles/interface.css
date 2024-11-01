@@ -1,0 +1,64 @@
+:root {
+    --primary-color: #721738;
+    --secondary-color: #333;
+    --tertiary-color: #560e24;
+    --quaternary-color: #fff;
+    --quintenary-color: #66253d;
+  }
+  
+  /* Estilos básicos */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: var(--secondary-color);
+  }
+  
+  /* Cabeçalho */
+  .hello {
+    text-align: center;
+    color: var(--quaternary-color);
+    padding: 20px;
+  }
+  
+  .hello h1 {
+    margin: 0;
+    font-size: 2.5em;
+  }
+  
+  /* Estilos para a imagem da equipe */
+  .team {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    margin: 20px 0;
+  }
+  .team img {
+    max-width: 45%;
+    max-height: 30%;
+    width: 45%;
+    margin: auto;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+ 
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .hello h1 {
+      font-size: 2em;
+    }
+    
+    .team img {
+      max-width: 80%;
+      max-height: 80%;
+      width: 55%;
+      margin: auto;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .team img {
+      width: 90%; /* Garante que a imagem ocupe 90% da largura em telas pequenas */
+    }
+  }
+  
