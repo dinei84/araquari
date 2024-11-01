@@ -79,3 +79,57 @@ th {
 .actions {
     text-align: center;
 }
+
+/* Estilos responsivos para os botões */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Responsividade da tabela */
+@media screen and (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    th, td {
+        min-width: 120px;
+    }
+    
+    .actions {
+        position: sticky;
+        right: 0;
+        background: #fff;
+        box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    }
+    
+    button {
+        width: 50%;
+        margin: 5px 0;
+    }
+}
+
+/* Para telas muito pequenas */
+@media screen and (max-width: 480px) {
+    input[type="text"] {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
