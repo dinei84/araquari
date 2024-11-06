@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../menu.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../styles/menu.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=note_alt" />
-
-    <title>Cadastro de Motorista</title>
+    <title>Início</title>
 </head>
 <body>
-
+    
     <nav class="sidebar">
         <div class="hamburger-menu">
             <div class="hamburger"></div>
@@ -47,56 +46,44 @@
                 </a>
             </li>
             <li>
-                <a href="contato.html">
+                <a href="../CONTATOS/contato.html">
                     <i class="fas fa-address-book"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M80-120q-33 0-56.5-23.5T0-200v-560q0-33 23.5-56.5T80-840h800q33 0 56.5 23.5T960-760v560q0 33-23.5 56.5T880-120H80Zm556-80h244v-560H80v560h4q42-75 116-117.5T360-360q86 0 160 42.5T636-200ZM360-400q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm400 160 80-80-60-80h-66q-6-18-10-38.5t-4-41.5q0-21 4-40.5t10-39.5h66l60-80-80-80q-54 42-87 106.5T640-480q0 69 33 133.5T760-240Zm-578 40h356q-34-38-80.5-59T360-280q-51 0-97 21t-81 59Zm178-280q-17 0-28.5-11.5T320-520q0-17 11.5-28.5T360-560q17 0 28.5 11.5T400-520q0 17-11.5 28.5T360-480Zm120 0Z"/></svg></i>
                     <span>Lista de Contatos</span>
                 </a>
             </li>
+
             <li>
                 <a href="../../index.html">
                     <i class="fas fa-home"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></i>
                     <span>Início</span>
                 </a>
-            </li>            
-            
+            </li>
         </ul>
     </nav>
 
-    <div class="container">
-        <div id="form-container">
-            <h1>Cadastro de Motorista</h1>
-            <form id="driverForm">
-                <label for="driver">Motorista:</label>
-                <input type="text" id="driver" name="driver" required>
-                
-                <label for="phone">Telefone:</label>
-                <input type="text" id="phone" name="phone" required>
-                
-                <label for="owner">Frotista (Proprietário):</label>
-                <input type="text" id="owner" name="owner" required>
-                
-                <button type="button" id="submitBtn">Adicionar à Planilha</button>
-                <button type="button" id="clearBtn">Limpar</button>
-            </form>
-            <div class="showList"><button id="viewListBtn">Ver Listagem</button></div>
-        </div>
-    </div>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDcpggR7jf2BEPNLqRj1Iz368F0dDtD1-4",
-            authDomain: "planilha-8938f.firebaseapp.com",
-            projectId: "planilha-8938f",
-            storageBucket: "planilha-8938f.appspot.com",
-            messagingSenderId: "211015132743",
-            appId: "1:211015132743:web:45f443dc9e65b72fe37362"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-    </script>
 
-    <script src="js/index.js"></script>
+    <main class="calculadoras-page">
+        <div class="container">
+            <div class="interface">
+                <div class="calculadora1">
+                    <a href="CALC FRETE MOT/calcFreteMot.html" target="_self">
+                        <button class="btn">
+                            FRETES
+                        </button>
+                    </a>
+                </div>
+                <div class="calculadora2">
+                    <a href="../CALCULADORAS/CALC ICMS/clauladoraicms.html" target="_self">
+                        <button class="btn2">
+                            ICMS
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://kit.fontawesome.com/your-code.js"></script>
     <script src="../../js/menu.js"></script>
 </body>
 </html>
