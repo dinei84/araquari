@@ -107,6 +107,9 @@ async function editDriver(id) {
 }
 
 async function deleteDriver(id) {
+    if (!confirm('Tem certeza que deseja apagar este motorista?')) {
+        return;
+    }
     await db.collection('drivers').doc(id).delete();
     drivers = drivers.filter(driver => driver.id !== id);
     sortAndRenderTable();
