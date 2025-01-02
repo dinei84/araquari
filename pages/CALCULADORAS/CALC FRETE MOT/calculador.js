@@ -32,12 +32,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const getAdiantamentoPorcentagem = () => {
         const radios = document.getElementsByName('porcentagem_adiantamento');
+        let isChecked = false;
         for (const radio of radios) {
             if (radio.checked) {
+                isChecked = true;
                 return parseFloat(radio.value); 
             }
         }
-        return 0.7; 
+        if (!isChecked) {
+            alert('Por favor, selecione uma porcentagem de adiantamento.');
+            return;
+        }
     };
 
     const calculodosValores = () => {
@@ -49,11 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var resultadoParcial = valorFreteNum - pedagioComDesconto;
         var valorDoFreteSemDescontoAjusteQuatro = resultadoParcial * pesoNum;
 
-        // Obtém a porcentagem de adiantamento selecionada
         var porcentagemAdiantamento = getAdiantamentoPorcentagem();
         var adiantamentoAjuste = valorDoFreteSemDescontoAjusteQuatro * porcentagemAdiantamento;
         
-        // Ajuste para seguro
         var adiantamentoAjusteComSeguro = adiantamentoAjuste * (1 - 0.018);
         var adiantamentoReal = adiantamentoAjusteComSeguro.toFixed(2);
 
@@ -78,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('freteUnitario').value = "";
         document.getElementById('adiantamento').value = "";
         
-        // Limpa a seleção dos radios
         const radios = document.getElementsByName('porcentagem_adiantamento');
         for (const radio of radios) {
             radio.checked = false;
