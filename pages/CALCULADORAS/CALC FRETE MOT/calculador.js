@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function() {
     function formatNumber(number) {
         return number.toLocaleString('pt-BR', {
             minimumFractionDigits: 2,
@@ -30,6 +30,16 @@ document.addEventListener('DOMContentLoaded', function(){
     const freteUnitario = document.getElementById('freteUnitario');
     const adiantamento = document.getElementById('adiantamento');
 
+    const getAdiantamentoPorcentagem = () => {
+        const radios = document.getElementsByName('porcentagem_adiantamento');
+        for (const radio of radios) {
+            if (radio.checked) {
+                return parseFloat(radio.value); 
+            }
+        }
+        return 0.7; 
+    };
+
     const calculodosValores = () => {
         const valorFreteNum = parseFormattedNumber(valordoFrete.value);
         const pedagioNum = parseFormattedNumber(pedagio.value);
@@ -38,7 +48,12 @@ document.addEventListener('DOMContentLoaded', function(){
         var pedagioComDesconto = pedagioNum ? pedagioNum / pesoNum : 0;
         var resultadoParcial = valorFreteNum - pedagioComDesconto;
         var valorDoFreteSemDescontoAjusteQuatro = resultadoParcial * pesoNum;
-        var adiantamentoAjuste = valorDoFreteSemDescontoAjusteQuatro * 0.7;
+
+        // Obtém a porcentagem de adiantamento selecionada
+        var porcentagemAdiantamento = getAdiantamentoPorcentagem();
+        var adiantamentoAjuste = valorDoFreteSemDescontoAjusteQuatro * porcentagemAdiantamento;
+        
+        // Ajuste para seguro
         var adiantamentoAjusteComSeguro = adiantamentoAjuste * (1 - 0.018);
         var adiantamentoReal = adiantamentoAjusteComSeguro.toFixed(2);
 
@@ -62,5 +77,11 @@ document.addEventListener('DOMContentLoaded', function(){
         document.getElementById('peso').value = "";
         document.getElementById('freteUnitario').value = "";
         document.getElementById('adiantamento').value = "";
+        
+        // Limpa a seleção dos radios
+        const radios = document.getElementsByName('porcentagem_adiantamento');
+        for (const radio of radios) {
+            radio.checked = false;
+        }
     });
 });
