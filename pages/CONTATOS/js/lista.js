@@ -103,7 +103,7 @@ function renderTable(driversToRender) {
 
 async function editDriver(id) {
     localStorage.setItem('editIndex', id);
-    window.location.href = 'index.html';
+    window.location.href = 'contato.html';
 }
 
 async function deleteDriver(id) {
