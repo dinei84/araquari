@@ -176,77 +176,86 @@
     window.addEventListener("load", carregarCarregamentos);
 
     window.captureAndShare = async () => {
-      // Cria um clone da tabela original
-      const originalTable = document.querySelector('table');
-      const clonedTable = originalTable.cloneNode(true);
-      
-      // Configurações para ocultar colunas
-      const hiddenColumns = ['Telefone', 'Motorista', 'Comentario', 'Ações'];
-      const clonedThs = clonedTable.querySelectorAll('thead th');
-      const clonedTrs = clonedTable.querySelectorAll('tbody tr');
-      const hiddenColumnIndices = [];
+  try {
+    // Cria um clone da tabela original
+    const originalTable = document.querySelector('table');
+    const clonedTable = originalTable.cloneNode(true);
 
-      // Identifica colunas para ocultar
-      clonedThs.forEach((th, index) => {
-        if (hiddenColumns.includes(th.textContent.trim())) {
-          hiddenColumnIndices.push(index);
-          th.style.display = 'none';
-        }
-      });
-
-      // Oculta células nas linhas
-      clonedTrs.forEach(tr => {
-        hiddenColumnIndices.forEach(index => {
-          if (tr.cells[index]) {
-            tr.cells[index].style.display = 'none';
-          }
-        });
-      });
-
-      // Posiciona o clone fora da tela
-      clonedTable.style.position = 'absolute';
-      clonedTable.style.left = '-9999px';
-      document.body.appendChild(clonedTable);
-
-      try {
-        // Captura a imagem do clone
-        const canvas = await html2canvas(clonedTable);
-        document.body.removeChild(clonedTable);
-        
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-        
-        const file = new File([blob], 'monitoramento_cargas.png', { type: 'image/png' });
-        
-        // Verifica se o navegador suporta o Web Share API
-        if (navigator.share) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: 'Monitoramento de Cargas',
-              text: 'Relatório de Monitoramento de Cargas'
-            });
-          } catch (error) {
-            // Se der erro na API de compartilhamento, usa o fallback do WhatsApp Web
-            shareViaWhatsApp(canvas.toDataURL());
-          }
-        } else {
-          // Fallback para WhatsApp Web direto
-          shareViaWhatsApp(canvas.toDataURL());
-        }
-      } catch (error) {
-        console.error('Erro ao capturar ou compartilhar:', error);
-        alert('Erro ao compartilhar imagem');
+    // Configurações para ocultar colunas
+    const hiddenColumns = ['Telefone', 'Motorista', 'Comentario', 'Ações'];
+    const clonedThs = clonedTable.querySelectorAll('thead th');
+    const clonedTrs = clonedTable.querySelectorAll('tbody tr');
+    const hiddenColumnIndices = [];
+    
+    // Identifica colunas para ocultar
+    clonedThs.forEach((th, index) => {
+      if (hiddenColumns.includes(th.textContent.trim())) {
+        hiddenColumnIndices.push(index);
+        th.style.display = 'none';
       }
-    };
+    });
 
-    function shareViaWhatsApp(imageData) {
-      const imageDataWithoutHeader = imageData.replace('data:image/png;base64,', '');
-      
-      const text = 'Relatório de Monitoramento de Cargas';
-      
-      const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-      window.open(whatsappUrl, '_blank');
+    // Oculta células nas linhas
+    clonedTrs.forEach(tr => {
+      hiddenColumnIndices.forEach(index => {
+        if (tr.cells[index]) {
+          tr.cells[index].style.display = 'none';
+        }
+      });
+    });
+
+    // Posiciona o clone fora da tela
+    clonedTable.style.position = 'absolute';
+    clonedTable.style.left = '-9999px';
+    document.body.appendChild(clonedTable);
+
+    // Captura a imagem do clone
+    const canvas = await html2canvas(clonedTable);
+    document.body.removeChild(clonedTable);
+
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    const file = new File([blob], 'monitoramento_cargas.png', { type: 'image/png' });
+
+    // Verifica se o navegador suporta o Web Share API
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Monitoramento de Cargas',
+          text: 'Relatório de Monitoramento de Cargas'
+        });
+      } catch (error) {
+        // Se der erro na API de compartilhamento, usa o fallback do WhatsApp Web
+        shareViaWhatsApp(canvas.toDataURL());
+      }
+    } else {
+      // Fallback para WhatsApp Web direto
+      shareViaWhatsApp(canvas.toDataURL());
     }
+
+    // Adiciona a funcionalidade de download
+    downloadImage(blob, 'monitoramento_cargas.png');
+  } catch (error) {
+    console.error('Erro ao capturar ou compartilhar:', error);
+    alert('Erro ao compartilhar ou baixar a imagem');
+  }
+};
+
+function shareViaWhatsApp(imageData) {
+  const imageDataWithoutHeader = imageData.replace('data:image/png;base64,', '');
+  const text = 'Relatório de Monitoramento de Cargas';
+  const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(whatsappUrl, '_blank');
+}
+
+// Função para baixar a imagem
+function downloadImage(blob, fileName) {
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(link.href); // Libera a memória após o download
+}
 
   </script>
 
