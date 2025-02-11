@@ -213,10 +213,8 @@
         const canvas = await html2canvas(clonedTable);
         document.body.removeChild(clonedTable);
         
-        // Converte o canvas para blob
         const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
         
-        // Cria um objeto de arquivo
         const file = new File([blob], 'monitoramento_cargas.png', { type: 'image/png' });
         
         // Verifica se o navegador suporta o Web Share API
@@ -242,13 +240,10 @@
     };
 
     function shareViaWhatsApp(imageData) {
-      // Remove o cabeçalho da URL data para o WhatsApp
       const imageDataWithoutHeader = imageData.replace('data:image/png;base64,', '');
       
-      // Cria um texto para acompanhar a imagem
       const text = 'Relatório de Monitoramento de Cargas';
       
-      // Abre o WhatsApp Web com a imagem
       const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
       window.open(whatsappUrl, '_blank');
     }
