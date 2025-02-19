@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+       
+    <meta charset="UTF-8" />
+       
+    <title>Adicionar/Editar Carregamento</title>
+       
+    <link rel="stylesheet" href="CSS/adicionar_carregamento.css" />
+  </head>
+  <body>
+       
+    <div class="container">
+             
+      <h2>Adicionar/Editar Carregamento</h2>
+             
+      <form id="formCarregamento">
+                    <label for="dataoc">Data da OC</label>            
+        <input type="date" id="dataoc" />
+
+                    <label for="placa">Placa</label>            
+        <input type="text" id="placa" required />
+
+                    <label for="motorista">Motorista</label>            
+        <input type="text" id="motorista" required />
+
+                    <label for="tipo-veiculo">Tipo Veiculo</label>            
+        <input type="text" id="tipo-veiculo" required />
+
+                    <label for="peso-carregado">Peso Carregado</label>          
+          <input type="number" id="peso-carregado" required step="0.01" />
+
+                    <label for="fretemotorista">Frete Motorista</label>        
+            <input type="number" id="fretemotorista" required step="0.01" />
+
+                    <label for="emissor">Emissor</label>            
+        <input type="text" id="emissor" />
+
+                    <label for="data-manifesto">Data Manifesto</label>          
+          <input type="date" id="data-manifesto" />
+
+                    <label for="cte">CTe</label>            
+        <input type="number" id="cte" />
+
+                    <label for="data-entrega">Data Entrega</label>            
+        <input type="date" id="data-entrega" />
+
+                    <label for="nfe">NFe</label>            
+        <input type="number" id="nfe" />
+
+                    <label for="observacao">Observação</label>            
+        <input type="text" id="observacao" />
+
+                    <button type="submit">Salvar Carregamento</button>          
+         
+        <button type="button" class="btn-voltar" id="btnVoltar">
+          Voltar para Lista de Carregamentos
+        </button>
+               
+      </form>
+         
+    </div>
+
+       
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        getDoc,
+        doc,
+        updateDoc       
+      } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDcpggR7jf2BEPNLqRj1Iz368F0dDtD1-4",
+        authDomain: "planilha-8938f.firebaseapp.com",
+        projectId: "planilha-8938f",
+        storageBucket: "planilha-8938f.firebasestorage.app",
+        messagingSenderId: "211015132743",
+        appId: "1:211015132743:web:45f443dc9e65b72fe37362",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const freteId = urlParams.get("freteId");
+      const carregamentoId = urlParams.get("carregamentoId"); // Get carregamentoId for editing
+      let isEditMode = !!carregamentoId; // Check if carregamentoId exists to determine edit mode
+
+      // Carregar dados para edição
+        async function loadCarregamentoForEdit() {
+            if (!isEditMode) return;
+
+            try {
+                const carregamentoDoc = await getDoc(doc(db, 'fretes', freteId, 'carregamentos', carregamentoId));
+                if (carregamentoDoc.exists()) {
+                    const data = carregamentoDoc.data();
+                    document.getElementById('dataoc').value = data.dataoc || '';
+                    document.getElementById('placa').value = data.placa || '';
+                    document.getElementById('motorista').value = data.motorista || '';
+                    document.getElementById('tipo-veiculo').value = data['tipo-veiculo'] || '';
+                    document.getElementById('peso-carregado').value = data['peso-carregado'] || '';
+                    document.getElementById('fretemotorista').value = data.fretemotorista || '';
+                    document.getElementById('emissor').value = data.emissor || '';
+                    document.getElementById('data-manifesto').value = data['data-manifesto'] || '';
+                    document.getElementById('cte').value = data.cte || '';
+                    document.getElementById('data-entrega').value = data['data-entrega'] || '';
+                    document.getElementById('nfe').value = data.nfe || '';
+                    document.getElementById('observacao').value = data.observacao || '';
+                    // Preencher outros campos...
+                }
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+            }
+        }
+
+        // Validação em tempo real
+        document.getElementById('peso-carregado').addEventListener('change', async () => {
+            const pesoInput = document.getElementById('peso-carregado');
+            const peso = parseFloat(pesoInput.value) || 0;
+            
+            const freteDoc = await getDoc(doc(db, 'fretes', freteId));
+            const freteData = freteDoc.data();
+            
+            let saldoDisponivel = parseFloat(freteData.saldo);
+            
+            if (isEditMode) {
+                const carregamentoAnterior = await getDoc(doc(db, 'fretes', freteId, 'carregamentos', carregamentoId));
+                saldoDisponivel += parseFloat(carregamentoAnterior.data()['peso-carregado']) || 0;
+            }
+            
+            if (peso > saldoDisponivel) {
+                alert(`Saldo disponível: ${saldoDisponivel.toFixed(2)} Toneladas`);
+                pesoInput.value = saldoDisponivel.toFixed(2);
+            }
+        });
+
+        // Submit do formulário
+        document.getElementById('formCarregamento').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const freteRef = doc(db, 'fretes', freteId);
+                const freteDoc = await getDoc(freteRef);
+                const freteData = freteDoc.data();
+
+                const pesoCarregado = parseFloat(document.getElementById('peso-carregado').value);
+                if (isNaN(pesoCarregado) || pesoCarregado <= 0) {
+                    alert('Por favor, insira um peso carregado válido.');
+                    return;
+                }
+
+                const saldoDisponivel = parseFloat(freteData.saldo);
+                
+                if (pesoCarregado > saldoDisponivel) {
+                    alert(`Saldo insuficiente! Saldo disponível: ${saldoDisponivel.toFixed(2)} Ton`);
+                    return;
+                }
+
+                // Update frete's carregado and saldo
+                const novoCarregado = (freteData.carregado || 0) + pesoCarregado;
+                const novoSaldo = (freteData.liberado || 0) - novoCarregado;
+
+                await updateDoc(freteRef, {
+                    carregado: novoCarregado,
+                    saldo: novoSaldo
+                });
+
+                // Save carregamento
+                const carregamentoData = {
+                    'peso-carregado': pesoCarregado,
+                    placa: document.getElementById('placa').value,
+                    motorista: document.getElementById('motorista').value,
+                    'tipo-veiculo': document.getElementById('tipo-veiculo').value,
+                    fretemotorista: document.getElementById('fretemotorista').value,
+                    dataoc: document.getElementById('dataoc').value,
+                    emissor: document.getElementById('emissor').value,
+                    'data-manifesto': document.getElementById('data-manifesto').value,
+                    cte: document.getElementById('cte').value,
+                    'data-entrega': document.getElementById('data-entrega').value,
+                    nfe: document.getElementById('nfe').value,
+                    observacao: document.getElementById('observacao').value,
+                    timestamp: new Date()
+                };
+
+                if (isEditMode) {
+                    await updateDoc(doc(db, 'fretes', freteId, 'carregamentos', carregamentoId), carregamentoData);
+                } else {
+                    await addDoc(collection(db, 'fretes', freteId, 'carregamentos'), carregamentoData);
+                }
+
+                alert('Carregamento salvo com sucesso!');
+                window.location.href = `lista_carregamento.html?freteId=${freteId}`;
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao salvar carregamento');
+            }
+        });
+
+        // Regex for number input validation
+        const numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/; // Allows up to two decimal places
+
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function(e) {
+                if (!numberPattern.test(this.value)) {
+                    this.value = this.value.slice(0, -1); // Remove the last character if invalid
+                }
+            });
+        });
+
+        // Inicialização
+        if (isEditMode) loadCarregamentoForEdit();
+    </script>
+  </body>
+</html>

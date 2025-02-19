@@ -1,0 +1,196 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar/Editar Frete</title>
+    <link rel="stylesheet" href="css/index01.css">    
+</head>
+<body>
+    <div class="container">
+        <h2>Adicionar/Editar Frete</h2>
+        <form id="formFrete">
+            <label for="data">Data</label>
+            <input type="date" id="data" required>
+
+            <label for="cliente">Cliente</label>
+            <input type="text" id="cliente" required>
+
+            <label for="destino">Destino</label>
+            <input type="text" id="destino" required>
+
+            <label for="destinotroca">Destino Troca (se houver)</label>
+            <input type="text" id="destinotroca">
+
+            <label for="pedido">Pedido</label>
+            <input type="text" id="pedido">
+
+            <label for="frempresa">Frete Empresa</label>
+            <input type="text" id="frempresa">
+
+            <label for="liberado">Quantidade Total (Toneladas)</label>
+            <input type="number" id="liberado" step="0.01" required>
+            
+            <label for="carregado">Total Já Carregado</label>
+            <input type="number" id="carregado" step="0.01" readonly>
+            
+            <label for="saldo">Saldo Disponível</label>
+            <input type="number" id="saldo" step="0.01" readonly>
+
+            <label for="motorista">Frete Motorista</label>
+            <input type="number" id="motorista">
+
+            <label for="operacao">Operação</label>
+            <input type="text" id="operacao">
+
+            <label for="lote">Lote</label>
+            <input type="text" id="lote">
+
+            <label for="localizacao">Localização</label>
+            <input type="text" id="localizacao">
+
+            <label for="observacao">Observação</label>
+            <textarea id="observacao"></textarea>
+
+            <button type="submit">Salvar Frete</button>
+            <button type="button" class="btn-voltar" id="btnVoltar">Voltar para Lista de Fretes</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            updateDoc,
+            addDoc,
+            collection,
+            increment            
+        } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcpggR7jf2BEPNLqRj1Iz368F0dDtD1-4",
+            authDomain: "planilha-8938f.firebaseapp.com",
+            projectId: "planilha-8938f",
+            storageBucket: "planilha-8938f.firebasestorage.app",
+            messagingSenderId: "211015132743",
+            appId: "1:211015132743:web:45f443dc9e65b72fe37362"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const formFrete = document.getElementById('formFrete');
+        const btnVoltar = document.getElementById('btnVoltar');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const freteId = urlParams.get('freteId');
+
+        let isEditMode = !!freteId;
+
+        async function loadFreteForEdit(freteId) {
+    if (freteId) {
+        try {
+            const docRef = doc(db, 'fretes', freteId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const freteData = docSnap.data();
+
+                // Define os valores dos campos
+                document.getElementById('data').value = freteData.data || '';
+                document.getElementById('cliente').value = freteData.cliente || '';
+                document.getElementById('destino').value = freteData.destino || '';
+                document.getElementById('destinotroca').value = freteData.destinotroca || '';
+                document.getElementById('pedido').value = freteData.pedido || '';
+                document.getElementById('frempresa').value = freteData.frempresa || '';
+                document.getElementById('motorista').value = freteData.motorista || '';
+                document.getElementById('operacao').value = freteData.operacao || '';
+                document.getElementById('lote').value = freteData.lote || '';
+                document.getElementById('localizacao').value = freteData.localizacao || '';
+                document.getElementById('observacao').textContent = freteData.observacao || '';
+
+                // Corrigir o erro de referência
+                const liberado = parseFloat(freteData.liberado) || 0;
+                const carregado = parseFloat(freteData.carregado) || 0;
+                const saldo = (liberado - carregado).toFixed(2);
+
+                document.getElementById('liberado').value = liberado.toFixed(2);
+                document.getElementById('carregado').value = carregado.toFixed(2);
+                document.getElementById('saldo').value = saldo;
+            } else {
+                alert('Frete não encontrado!');
+            }
+        } catch (error) {
+            console.error("Erro ao carregar frete para edição:", error);
+            alert('Erro ao carregar frete para edição.');
+        }
+    }
+}
+
+
+
+        formFrete.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const freteData = {
+                data: document.getElementById('data').value,
+                cliente: document.getElementById('cliente').value,
+                destino: document.getElementById('destino').value,
+                destinotroca: document.getElementById('destinotroca').value,
+                pedido: document.getElementById('pedido').value,
+                frempresa: document.getElementById('frempresa').value,
+                liberado: parseFloat(document.getElementById('liberado').value),
+                carregado: parseFloat(document.getElementById('carregado').value) || 0,
+                saldo: parseFloat(document.getElementById('saldo').value) || 0,
+                motorista: parseFloat(document.getElementById('motorista').value),
+                operacao: document.getElementById('operacao').value,
+                lote: document.getElementById('lote').value,
+                localizacao: document.getElementById('localizacao').value,
+                observacao: document.getElementById('observacao').value,
+                timestamp: new Date()
+            };
+
+            try {
+                if (isEditMode) {
+                    await updateDoc(doc(db, 'fretes', freteId), freteData);
+                } else {
+                    await addDoc(collection(db, 'fretes'), freteData);
+                }
+                window.location.href = 'lista_fretes.html';
+            } catch (error) {
+                console.error("Erro:", error);
+                alert('Erro ao salvar frete');
+            }
+        });
+
+        formFrete.addEventListener('change', (e) => {
+            if (e.target.id === 'liberado' || e.target.id === 'carregado') {
+                const liberado = parseFloat(document.getElementById('liberado').value) || 0;
+                const carregado = parseFloat(document.getElementById('carregado').value) || 0;
+                const saldo = (liberado - carregado).toFixed(2);
+                document.getElementById('saldo').value = saldo;
+            }
+        });
+
+        btnVoltar.addEventListener('click', () => {
+            window.location.href = 'lista_fretes.html';
+        });
+
+        if (isEditMode) {
+            loadFreteForEdit(freteId);
+        }
+
+        // Regex for number input validation
+        const numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/; // Allows up to two decimal places
+
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function(e) {
+                if (!numberPattern.test(this.value)) {
+                    this.value = this.value.slice(0, -1); // Remove the last character if invalid
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 80px; 
+  margin-top: 20px; 
+}
+
+table {
+  width: 95%; 
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 15px 15px 15px rgba(86, 14, 36, 0.1);
+  margin: 0 auto; 
+}
+
+#searchInput {
+  width: 155px;
+  height: 33px;
+  border-radius: 5px;
+}
+
+h1 {
+  color: #560e24;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.total-saldo {
+  position: absolute;
+  background-color: yellow;
+  top: 20px;
+  right: 80px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px; 
+}
+
+.btn-novo-frete {
+  background-color: #560e24;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 15px rgba(86, 14, 36, 0.1);
+}
+
+th,
+td {
+  padding: 3px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  margin-left: 55px;
+}
+
+th {
+  background-color: #560e24;
+  color: white;
+  border-radius: 5px;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+.acoes button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-editar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-excluir {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-carregamento {
+  background-color: #560e24;
+  color: white;
+}
+
+.btn-listar-carregamentos {
+  background-color: #ff9800;
+  color: white;
+}
