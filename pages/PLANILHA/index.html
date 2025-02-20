@@ -17,6 +17,9 @@
             <label for="cliente">Cliente</label>
             <input type="text" id="cliente" required>
 
+            <label for="expedidor">Expedidor (ARMAZEM)</label>
+            <input type="text" id="expedidor">
+
             <label for="destinatario">Destinatário</label>
             <input type="text" id="destinatario">
 
@@ -113,6 +116,7 @@
                 // Define os valores dos campos
                 document.getElementById('data').value = freteData.data || '';
                 document.getElementById('cliente').value = freteData.cliente || '';
+                document.getElementById('expedidor').value = freteData.expedidor || '';
                 document.getElementById('destino').value = freteData.destino || '';
                 document.getElementById('destinatario').value = freteData.destinatario || '';
                 document.getElementById('recebedor').value = freteData.recebedor || '';
@@ -153,6 +157,7 @@
             const freteData = {
                 data: document.getElementById('data').value,
                 cliente: document.getElementById('cliente').value,
+                expedidor: document.getElementById('expedidor').value,
                 destino: document.getElementById('destino').value,
                 destinatario: document.getElementById('destinatario').value,
                 recebedor: document.getElementById('recebedor').value,
