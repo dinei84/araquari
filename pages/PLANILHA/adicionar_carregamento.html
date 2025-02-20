@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>Adicionar/Editar Carregamento</title>
     <link rel="stylesheet" href="css/adicionar_carregamento.css" />
+    <link rel="stylesheet" href="../../menu.css">
 </head>
 
 <body>
@@ -89,6 +90,12 @@
         const carregamentoId = urlParams.get("carregamentoId"); // Get carregamentoId for editing
         let isEditMode = !!carregamentoId; // Check if carregamentoId exists to determine edit mode
 
+        let voltar = document.getElementById('btnVoltar');
+        voltar.addEventListener('click', () => {
+            window.location.href = `lista_carregamento.html?freteId=${freteId}`;
+        });
+        
+
         // Carregar dados para edição
         async function loadCarregamentoForEdit() {
             if (!isEditMode) return;
@@ -109,7 +116,6 @@
                     document.getElementById('data-entrega').value = data['data-entrega'] || '';
                     document.getElementById('nfe').value = data.nfe || '';
                     document.getElementById('observacao').value = data.observacao || '';
-                    // Preencher outros campos...
                 }
             } catch (error) {
                 console.error('Erro ao carregar:', error);
