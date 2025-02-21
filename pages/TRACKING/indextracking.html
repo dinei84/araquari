@@ -120,6 +120,7 @@
     <button onclick="window.location.href='cadastro.html'">Adicionar Carga</button>
     <button onclick="captureAndDownload()">Imprimir / Baixar Snapshot</button>
     <button onclick="captureAndShare()">Compartilhar no WhatsApp</button>
+    <button onclick="toggleAutoMessages()" id="autoMessageToggle">Ativar Mensagens Automáticas</button>
   </div>
   <table>
     <thead>
@@ -144,6 +145,18 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script type="module">
+    // Adicione estas variáveis no início do script
+    let autoMessageInterval;
+    const AUTO_MESSAGE_TIMES = [9, 18]; // Horários 9h e 15h
+
+    // Estado inicial
+    let autoMessagesEnabled = localStorage.getItem('autoMessagesEnabled') === 'true';
+    const toggleButton = document.getElementById('autoMessageToggle');
+    toggleButton.textContent = autoMessagesEnabled 
+        ? 'Desativar Mensagens Automáticas' 
+        : 'Ativar Mensagens Automáticas';
+    
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
     import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
 
@@ -160,6 +173,8 @@
     const db = getFirestore(app);
     const traelCollection = collection(db, "trael");
 
+    if (autoMessagesEnabled) startAutoMessageCheck();
+
     function getSaudacao() {
       const hora = new Date().getHours();
       if (hora < 12) return "Bom dia";
@@ -167,6 +182,77 @@
       return "Boa noite";
     }
 
+    
+
+    // Função para enviar mensagens automáticas
+    async function sendAutoMessages() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const today = now.toDateString();
+        
+        // Verificar se é um horário programado
+        if (!AUTO_MESSAGE_TIMES.includes(currentHour)) return;
+
+        // Verificar se já foi enviado hoje
+        const lastSent = localStorage.getItem('lastAutoMessageDate');
+        if (lastSent === today) return;
+
+        try {
+            const querySnapshot = await getDocs(traelCollection);
+            querySnapshot.forEach((doc) => {
+                const carga = doc.data();
+                if (carga.telefone) {
+                    const mensagem = encodeURIComponent(
+                        `${getSaudacao()}! Atualização de carga:\n` +
+                        `Placa: ${carga.placa || 'N/A'}\n` +
+                        `Localização: ${carga.localizacao || 'N/A'}\n` +
+                        `Previsão: ${carga.previsao || 'N/A'}\n` +
+                        `Status: ${carga.status || 'N/A'}`
+                    );
+                    
+                    const whatsappLink = `https://wa.me/55${carga.telefone.replace(/\D/g, '')}?text=${mensagem}`;
+                    
+                    // Abrir janela do WhatsApp
+                    window.open(whatsappLink, '_blank');
+                }
+            });
+
+            // Marcar como enviado hoje
+            localStorage.setItem('lastAutoMessageDate', today);
+        } catch (error) {
+            console.error('Erro ao enviar mensagens automáticas:', error);
+        }
+    }
+
+    // Função para verificar horário periodicamente
+    function startAutoMessageCheck() {
+        autoMessageInterval = setInterval(() => {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            if (AUTO_MESSAGE_TIMES.includes(currentHour)) {
+                sendAutoMessages();
+            }
+        }, 60000); // Verificar a cada minuto
+    }
+
+    // Controle de ativação/desativação
+    window.toggleAutoMessages = () => {
+    autoMessagesEnabled = !autoMessagesEnabled;
+    localStorage.setItem('autoMessagesEnabled', autoMessagesEnabled);
+    
+    toggleButton.textContent = autoMessagesEnabled
+        ? 'Desativar Mensagens Automáticas'
+        : 'Ativar Mensagens Automáticas';
+
+    if (autoMessagesEnabled) {
+        startAutoMessageCheck();
+    } else {
+        clearInterval(autoMessageInterval);
+    }
+}
+
+    
     async function carregarCarregamentos() {
       try {
         const querySnapshot = await getDocs(traelCollection);
