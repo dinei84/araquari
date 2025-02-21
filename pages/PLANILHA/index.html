@@ -17,7 +17,16 @@
             <label for="cliente">Cliente</label>
             <input type="text" id="cliente" required>
 
-            <label for="destino">Destino</label>
+            <label for="expedidor">Expedidor (ARMAZEM)</label>
+            <input type="text" id="expedidor">
+
+            <label for="destinatario">Destinatário</label>
+            <input type="text" id="destinatario">
+
+            <label for="recebedor">Recebedor</label>
+            <input type="text" id="recebedor">
+
+            <label for="destino">Destino Final</label>
             <input type="text" id="destino" required>
 
             <label for="destinotroca">Destino Troca (se houver)</label>
@@ -28,6 +37,12 @@
 
             <label for="frempresa">Frete Empresa</label>
             <input type="text" id="frempresa">
+
+            <label for="produto">Produto</label>
+            <input type="text" id="produto">
+
+            <label for="embalagem">Embalagem</label>
+            <input type="text" id="embalagem">
 
             <label for="liberado">Quantidade Total (Toneladas)</label>
             <input type="number" id="liberado" step="0.01" required>
@@ -101,9 +116,14 @@
                 // Define os valores dos campos
                 document.getElementById('data').value = freteData.data || '';
                 document.getElementById('cliente').value = freteData.cliente || '';
+                document.getElementById('expedidor').value = freteData.expedidor || '';
                 document.getElementById('destino').value = freteData.destino || '';
+                document.getElementById('destinatario').value = freteData.destinatario || '';
+                document.getElementById('recebedor').value = freteData.recebedor || '';
                 document.getElementById('destinotroca').value = freteData.destinotroca || '';
                 document.getElementById('pedido').value = freteData.pedido || '';
+                document.getElementById('produto').value = freteData.produto || '';
+                document.getElementById('embalagem').value = freteData.embalagem || '';
                 document.getElementById('frempresa').value = freteData.frempresa || '';
                 document.getElementById('motorista').value = freteData.motorista || '';
                 document.getElementById('operacao').value = freteData.operacao || '';
@@ -137,9 +157,14 @@
             const freteData = {
                 data: document.getElementById('data').value,
                 cliente: document.getElementById('cliente').value,
+                expedidor: document.getElementById('expedidor').value,
                 destino: document.getElementById('destino').value,
+                destinatario: document.getElementById('destinatario').value,
+                recebedor: document.getElementById('recebedor').value,
                 destinotroca: document.getElementById('destinotroca').value,
                 pedido: document.getElementById('pedido').value,
+                produto: document.getElementById('produto').value,
+                embalagem: document.getElementById('embalagem').value,
                 frempresa: document.getElementById('frempresa').value,
                 liberado: parseFloat(document.getElementById('liberado').value),
                 carregado: parseFloat(document.getElementById('carregado').value) || 0,
