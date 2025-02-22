@@ -122,6 +122,13 @@
     const db = getFirestore(app);
     const traelCollection = collection(db, "trael");
 
+    function getSaudacao() {
+    const hora = new Date().getHours();
+    if (hora < 12) return "Bom dia";
+    if (hora < 18) return "Boa tarde";
+    return "Boa noite";
+    }
+
     async function carregarCarregamentos() {
       try {
         const querySnapshot = await getDocs(traelCollection);
@@ -140,7 +147,11 @@
             <td>${carga.nfe || ''}</td>
             <td>${carga.cte || ''}</td>
             <td>${carga.previsao || ''}</td>
-            <td>${carga.telefone || ''}</td>
+            <td>
+                ${carga.telefone ? `<a href="https://wa.me/55${carga.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(getSaudacao() + `, preciso saber onde esta o motorista da placa ${carga.placa}`)}" target="_blank">
+                    ${carga.telefone}
+                </a>` : ''}
+            </td>
             <td>${carga.nome || ''}</td>
             <td>${carga.comentario || ''}</td>            
             <td>
