@@ -45,13 +45,13 @@
             <input type="text" id="embalagem">
 
             <label for="liberado">Quantidade Total (Toneladas)</label>
-            <input type="number" id="liberado" step="0.01" required>
+            <input type="text" id="liberado" required>
             
             <label for="carregado">Total Já Carregado</label>
-            <input type="number" id="carregado" step="0.01" readonly>
+            <input type="text" id="carregado" required>
             
             <label for="saldo">Saldo Disponível</label>
-            <input type="number" id="saldo" step="0.01" readonly>
+            <input type="text" id="saldo" readonly>
 
             <label for="motorista">Frete Motorista</label>
             <input type="number" id="motorista">
@@ -84,7 +84,7 @@
             collection,
             increment            
         } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-firestore.js";
-
+    
         const firebaseConfig = {
             apiKey: "AIzaSyDcpggR7jf2BEPNLqRj1Iz368F0dDtD1-4",
             authDomain: "planilha-8938f.firebaseapp.com",
@@ -93,67 +93,94 @@
             messagingSenderId: "211015132743",
             appId: "1:211015132743:web:45f443dc9e65b72fe37362"
         };
-
+    
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const formFrete = document.getElementById('formFrete');
         const btnVoltar = document.getElementById('btnVoltar');
-
+    
         const urlParams = new URLSearchParams(window.location.search);
         const freteId = urlParams.get('freteId');
-
         let isEditMode = !!freteId;
-
-        async function loadFreteForEdit(freteId) {
-    if (freteId) {
-        try {
-            const docRef = doc(db, 'fretes', freteId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const freteData = docSnap.data();
-
-                // Define os valores dos campos
-                document.getElementById('data').value = freteData.data || '';
-                document.getElementById('cliente').value = freteData.cliente || '';
-                document.getElementById('expedidor').value = freteData.expedidor || '';
-                document.getElementById('destino').value = freteData.destino || '';
-                document.getElementById('destinatario').value = freteData.destinatario || '';
-                document.getElementById('recebedor').value = freteData.recebedor || '';
-                document.getElementById('destinotroca').value = freteData.destinotroca || '';
-                document.getElementById('pedido').value = freteData.pedido || '';
-                document.getElementById('produto').value = freteData.produto || '';
-                document.getElementById('embalagem').value = freteData.embalagem || '';
-                document.getElementById('frempresa').value = freteData.frempresa || '';
-                document.getElementById('motorista').value = freteData.motorista || '';
-                document.getElementById('operacao').value = freteData.operacao || '';
-                document.getElementById('lote').value = freteData.lote || '';
-                document.getElementById('localizacao').value = freteData.localizacao || '';
-                document.getElementById('observacao').textContent = freteData.observacao || '';
-
-                // Corrigir o erro de referência
-                const liberado = parseFloat(freteData.liberado) || 0;
-                const carregado = parseFloat(freteData.carregado) || 0;
-                const saldo = (liberado - carregado).toFixed(2);
-
-                document.getElementById('liberado').value = liberado.toFixed(2);
-                document.getElementById('carregado').value = carregado.toFixed(2);
-                document.getElementById('saldo').value = saldo;
-            } else {
-                alert('Frete não encontrado!');
-            }
-        } catch (error) {
-            console.error("Erro ao carregar frete para edição:", error);
-            alert('Erro ao carregar frete para edição.');
+    
+        // Funções de formatação
+        function formatNumber(number) {
+            return number.toLocaleString('pt-BR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
         }
-    }
-}
-
-
-
+    
+        function parseFormattedNumber(str) {
+            // Remove pontos de milhar e substitui vírgula por ponto
+            return parseFloat(str.replace(/\./g, '').replace(',', '.'));
+        }
+    
+        // Configurar formatação automática para campos numéricos
+        function setupNumberInput(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+    
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+                value = (parseInt(value || 0) / 100).toFixed(2); // Divide por 100 para obter decimais
+                e.target.value = formatNumber(parseFloat(value)); // Formata com vírgula
+            });
+    
+            // Permitir entrada de valores com ponto como separador de milhar
+            input.pattern = '[0-9]{1,3}(\\.[0-9]{3})*,[0-9]{2}';
+            input.inputMode = 'decimal';
+        }
+    
+        // Aplicar a todos os campos monetários
+        ['liberado', 'carregado', 'saldo'].forEach(setupNumberInput);
+    
+        async function loadFreteForEdit(freteId) {
+            if (freteId) {
+                try {
+                    const docRef = doc(db, 'fretes', freteId);
+                    const docSnap = await getDoc(docRef);
+    
+                    if (docSnap.exists()) {
+                        const freteData = docSnap.data();
+                        
+                        // Preencher campos simples
+                        document.getElementById('data').value = freteData.data || '';
+                        document.getElementById('cliente').value = freteData.cliente || '';
+                        document.getElementById('expedidor').value = freteData.expedidor || '';
+                        document.getElementById('destino').value = freteData.destino || '';
+                        document.getElementById('destinatario').value = freteData.destinatario || '';
+                        document.getElementById('recebedor').value = freteData.recebedor || '';
+                        document.getElementById('destinotroca').value = freteData.destinotroca || '';
+                        document.getElementById('pedido').value = freteData.pedido || '';
+                        document.getElementById('produto').value = freteData.produto || '';
+                        document.getElementById('embalagem').value = freteData.embalagem || '';
+                        document.getElementById('frempresa').value = freteData.frempresa || '';
+                        document.getElementById('motorista').value = freteData.motorista || '';
+                        document.getElementById('operacao').value = freteData.operacao || '';
+                        document.getElementById('lote').value = freteData.lote || '';
+                        document.getElementById('localizacao').value = freteData.localizacao || '';
+                        document.getElementById('observacao').textContent = freteData.observacao || '';
+    
+                        // Formatando valores numéricos
+                        const liberado = parseFloat(freteData.liberado) || 0;
+                        const carregado = parseFloat(freteData.carregado) || 0;
+                        const saldo = (liberado - carregado).toFixed(2);
+    
+                        document.getElementById('liberado').value = formatNumber(liberado);
+                        document.getElementById('carregado').value = formatNumber(carregado);
+                        document.getElementById('saldo').value = formatNumber(saldo);
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar frete:", error);
+                    alert('Erro ao carregar dados do frete');
+                }
+            }
+        }
+    
         formFrete.addEventListener('submit', async (e) => {
             e.preventDefault();
-
+    
             const freteData = {
                 data: document.getElementById('data').value,
                 cliente: document.getElementById('cliente').value,
@@ -166,17 +193,17 @@
                 produto: document.getElementById('produto').value,
                 embalagem: document.getElementById('embalagem').value,
                 frempresa: document.getElementById('frempresa').value,
-                liberado: parseFloat(document.getElementById('liberado').value),
-                carregado: parseFloat(document.getElementById('carregado').value) || 0,
-                saldo: parseFloat(document.getElementById('saldo').value) || 0,
-                motorista: parseFloat(document.getElementById('motorista').value),
+                liberado: parseFormattedNumber(document.getElementById('liberado').value),
+                carregado: parseFormattedNumber(document.getElementById('carregado').value) || 0,
+                saldo: parseFormattedNumber(document.getElementById('saldo').value) || 0,
+                motorista: document.getElementById('motorista').value,
                 operacao: document.getElementById('operacao').value,
                 lote: document.getElementById('lote').value,
                 localizacao: document.getElementById('localizacao').value,
                 observacao: document.getElementById('observacao').value,
                 timestamp: new Date()
             };
-
+    
             try {
                 if (isEditMode) {
                     await updateDoc(doc(db, 'fretes', freteId), freteData);
@@ -185,38 +212,27 @@
                 }
                 window.location.href = 'lista_fretes.html';
             } catch (error) {
-                console.error("Erro:", error);
+                console.error("Erro ao salvar:", error);
                 alert('Erro ao salvar frete');
             }
         });
-
+    
         formFrete.addEventListener('change', (e) => {
             if (e.target.id === 'liberado' || e.target.id === 'carregado') {
-                const liberado = parseFloat(document.getElementById('liberado').value) || 0;
-                const carregado = parseFloat(document.getElementById('carregado').value) || 0;
+                const liberado = parseFormattedNumber(document.getElementById('liberado').value) || 0;
+                const carregado = parseFormattedNumber(document.getElementById('carregado').value) || 0;
                 const saldo = (liberado - carregado).toFixed(2);
-                document.getElementById('saldo').value = saldo;
+                document.getElementById('saldo').value = formatNumber(saldo);
             }
         });
-
+    
         btnVoltar.addEventListener('click', () => {
             window.location.href = 'lista_fretes.html';
         });
-
+    
         if (isEditMode) {
             loadFreteForEdit(freteId);
         }
-
-        // Regex for number input validation
-        const numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/; // Allows up to two decimal places
-
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', function(e) {
-                if (!numberPattern.test(this.value)) {
-                    this.value = this.value.slice(0, -1); // Remove the last character if invalid
-                }
-            });
-        });
     </script>
 </body>
 </html>

@@ -161,6 +161,28 @@
       const corpoTabela = document.getElementById("corpoTabela");
       const totalSaldoSpan = document.getElementById('totalSaldo');
 
+      function formatNumber(number) {
+        return number.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+      }
+
+      function parseFormattedNumber(str) {
+          // Primeiro remove pontos de milhar, depois substitui vírgula decimal por ponto
+          return parseFloat(str.replace(/\./g, '').replace(',', '.'));
+      }
+
+      // Adicionar eventos de formatação para os campos monetários
+      document.querySelectorAll('#valordoFrete, #pedagio').forEach(input => {
+        input.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\D/g, '');
+          value = (parseInt(value || 0) / 100).toFixed(2);
+          e.target.value = formatNumber(parseFloat(value));
+        });
+      });
+
+
       async function carregarFretes() {
         try {
           const querySnapshot = await getDocs(collection(db, "fretes"));
@@ -247,18 +269,7 @@
 
       window.listarCarregamentos = (freteId) => {
         window.location.href = `lista_carregamento.html?freteId=${freteId}`;
-      };
-
-      // Regex for number input validation
-      const numberPattern = /^[0-9]+(\.[0-9]{1,2})?$/; // Allows up to two decimal places
-
-      document.querySelectorAll('input[type="number"]').forEach((input) => {
-        input.addEventListener("input", function (e) {
-          if (!numberPattern.test(this.value)) {
-            this.value = this.value.slice(0, -1); // Remove the last character if invalid
-          }
-        });
-      });
+      };      
 
       // Carrega os fretes quando a página é aberta
       carregarFretes();
