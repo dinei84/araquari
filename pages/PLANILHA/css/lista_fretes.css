@@ -85,6 +85,15 @@ th, td {
   border-bottom: 1px solid #eee;
 }
 
+#tabelaFretes tbody tr td:nth-child(3) {
+  color: #f44336;
+  font-weight: bolder; 
+}
+
+#tabelaFretes tbody tr:hover td:nth-child(3) {
+  color: #f44336; 
+}
+
 th {
   background-color: #560e24;
   color: white;
