@@ -1,4 +1,4 @@
-/* Reset e configurações básicas */
+/* lista_fretes.css */
 * {
   box-sizing: border-box;
 }
@@ -92,6 +92,11 @@ th, td {
 
 #tabelaFretes tbody tr:hover td:nth-child(3) {
   color: #f44336; 
+}
+/* Adicionar no lista_fretes.css */
+#tabelaFretes td:nth-child(8) {
+  background-color: #ffd700; /* Amarelo */
+  font-weight: bold; /* Opcional: para destacar ainda mais */
 }
 
 th {

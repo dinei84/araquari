@@ -1,3 +1,4 @@
+/* lista_carregamento.css */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -98,6 +99,11 @@ tr:hover {
 
 .hide-for-print {
     display: none !important;
+}
+
+#tabelaFretes td:nth-child(11) {
+    background-color: #ffd700; /* Amarelo */
+    font-weight: bold; /* Opcional: para destacar ainda mais */
 }
 
 @media screen and (max-width: 1200px) {
