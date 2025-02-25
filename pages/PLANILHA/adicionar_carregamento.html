@@ -174,32 +174,40 @@
         // Submit do formulário
         document.getElementById('formCarregamento')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            try {
-                const freteRef = doc(db, 'fretes', freteId);
-                const freteDoc = await getDoc(freteRef);
-                const freteData = freteDoc.data();
-    
-                const pesoCarregado = parseFormattedNumber(pesoInput.value);
-                if (isNaN(pesoCarregado)) {
-                    alert('Peso carregado inválido!');
-                    return;
-                }
-    
-                const saldoDisponivel = parseFloat(freteData.saldo);
-    
-                if (pesoCarregado > saldoDisponivel) {
-                    alert(`Saldo insuficiente! Disponível: ${formatNumber(saldoDisponivel)} Ton`);
-                    return;
-                }
-    
-                // Atualizar frete com precisão
-                const novoCarregado = (parseFloat(freteData.carregado) || 0) + pesoCarregado;
-                const novoSaldo = (parseFloat(freteData.liberado) || 0) - novoCarregado;
-    
-                await updateDoc(freteRef, {
-                    carregado: parseFloat(novoCarregado.toFixed(3)),
-                    saldo: parseFloat(novoSaldo.toFixed(3))
-                });
+                try {
+                    const freteRef = doc(db, 'fretes', freteId);
+                    const freteDoc = await getDoc(freteRef);
+                    const freteData = freteDoc.data();
+
+                    const pesoCarregado = parseFormattedNumber(pesoInput.value);
+                    if (isNaN(pesoCarregado)) {
+                        alert('Peso carregado inválido!');
+                        return;
+                    }
+
+                    // Nova lógica para edição
+                    let saldoDisponivel = parseFloat(freteData.saldo);
+                    let pesoOriginal = 0;
+
+                    if (isEditMode) {
+                        const carregamentoAnterior = await getDoc(doc(db, 'fretes', freteId, 'carregamentos', carregamentoId));
+                        pesoOriginal = carregamentoAnterior.data()['peso-carregado'] || 0;
+                        saldoDisponivel += parseFloat(pesoOriginal); // Adiciona o peso original de volta ao saldo
+                    }
+
+                    if (pesoCarregado > saldoDisponivel) {
+                        alert(`Saldo insuficiente! Disponível: ${formatNumber(saldoDisponivel)} Ton`);
+                        return;
+                    }
+
+                    // Atualizar frete com precisão
+                    const novoCarregado = (parseFloat(freteData.carregado) || 0) - parseFloat(pesoOriginal) + pesoCarregado;
+                    const novoSaldo = (parseFloat(freteData.liberado) || 0) - novoCarregado;
+
+                    await updateDoc(freteRef, {
+                        carregado: parseFloat(novoCarregado.toFixed(3)),
+                        saldo: parseFloat(novoSaldo.toFixed(3))
+                    });
     
                 // Salvar carregamento
                 const carregamentoData = {
@@ -229,7 +237,7 @@
             } catch (error) {
                 console.error('Erro ao salvar:', error);
                 alert('Erro ao salvar carregamento');
-            }
+    }
         });
     
         // Inicialização
