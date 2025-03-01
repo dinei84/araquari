@@ -85,9 +85,10 @@ th, td {
   border-bottom: 1px solid #eee;
 }
 
-#tabelaFretes tbody tr td:nth-child(3) {
-  color: #f44336;
-  font-weight: bolder; 
+table#tabelaFretes tbody tr td:nth-child(3) {
+  color: #f44336 !important;
+  font-weight: bolder !important;
+  font-size: 20px;
 }
 
 #tabelaFretes tbody tr:hover td:nth-child(3) {
@@ -235,6 +236,12 @@ tr:hover {
     width: fit-content;
     padding: 0.375rem 0.75rem; /* Reduzido */
     font-size: 0.75rem; /* Reduzido */
+  }
+
+  table#tabelaFretes tbody tr td:nth-child(3) {
+    color: #f44336 !important;
+    font-weight: bolder !important;
+    font-size: 15px;
   }
 
   #searchInput {
