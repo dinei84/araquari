@@ -112,17 +112,22 @@ tr:hover {
 /* Botões de ação */
 .acoes {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem; 
   flex-wrap: wrap;
+  justify-content: flex-start; 
 }
 
 .acoes button {
-  padding: 0.375rem 0.75rem;
+  padding: 2px 9px; 
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s;
-  font-size: 0.875rem;
+  font-size: 14px;
+  min-width: 100px; 
+  text-align: center;
+  white-space: nowrap;
+  flex: 1 1 auto;
 }
 
 .acoes button:hover {
@@ -147,6 +152,70 @@ tr:hover {
 .btn-listar-carregamentos {
   background-color: #ff9800;
   color: white;
+}
+
+/* popup */
+/* Estilos do Popup */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.popup-content {
+  position: relative;
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 30px;
+  width: 70%;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.popup-body {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.popup-body p {
+  margin: 10px 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.popup-body strong {
+  color: #333;
+  min-width: 150px;
+  display: inline-block;
+}
+
+/* Estilo para o novo botão */
+.btn-visualizar {
+  background-color: #2196F3;
+  margin: 2px;
+}
+
+.btn-visualizar:hover {
+  background-color: #1976D2;
 }
 
 /* Media Queries para responsividade */
@@ -190,8 +259,8 @@ tr:hover {
   }
 
   .acoes button {
-    padding: 0.25rem 0.5rem; /* Reduzido */
-    font-size: 0.75rem; /* Reduzido */
+    padding: 4px 8px; /* Reduzido */
+    font-size: 12px; /* Reduzido */
   }
 }
 
@@ -255,9 +324,10 @@ tr:hover {
   }
 
   .acoes button {
-    padding: 0.25rem 0.5rem; /* Reduzido */
-    font-size: 0.6875rem; /* Reduzido */
-  }
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 80px; /* Reduzir largura mínima */
+}
 }
 
 /* Scroll horizontal para tabelas largas em mobile */
@@ -278,4 +348,9 @@ tr:hover {
   .btn-novo-frete {
     padding: 0.25rem 0.5rem; /* Reduzido */
   }
+  .acoes button {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-width: 70px;
+}
 }

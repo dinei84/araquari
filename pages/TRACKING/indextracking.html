@@ -94,6 +94,7 @@
         <th>Nº Nota</th>
         <th>Nº Conhecimento</th>
         <th>Previsão de Entrega</th>
+        <th>Status Diário</th>
         <th>Telefone</th>
         <th>Motorista</th>
         <th>Comentario</th>
@@ -147,6 +148,9 @@
             <td>${carga.nfe || ''}</td>
             <td>${carga.cte || ''}</td>
             <td>${carga.previsao || ''}</td>
+            <td style="background-color: ${carga.statusdiario?.trim().toLowerCase() === 'sim' ? 'green' : 'red'};">
+              ${carga.statusdiario || ''}
+            </td>
             <td>
                 ${carga.telefone ? `<a href="https://wa.me/55${carga.telefone.replace(/\D/g, '')}?text=${encodeURIComponent(getSaudacao() + `, preciso saber onde esta o motorista da placa ${carga.placa}`)}" target="_blank">
                     ${carga.telefone}
@@ -157,6 +161,7 @@
             <td>
               <button class="btn-edit" onclick="editarCarga('${doc.id}')">Editar</button>
               <button class="btn-delete" onclick="excluirCarga('${doc.id}')">Excluir</button>
+
             </td>
           `;
           cargas.appendChild(tr);
@@ -199,6 +204,7 @@
     const hiddenColumnIndices = [];
     
     // Identifica colunas para ocultar
+    hiddenColumns.push('Status Diário');
     clonedThs.forEach((th, index) => {
       if (hiddenColumns.includes(th.textContent.trim())) {
         hiddenColumnIndices.push(index);
