@@ -302,7 +302,8 @@ window.visualizarFrete = async (freteId) => {
                 <p><strong>Saldo:</strong> ${saldo.toFixed(2)} Ton</p>
                 <p><strong>Valor do Frete:</strong> R$ ${parseFloat(frete.valordoFrete).toFixed(2)}</p>
                 <p><strong>Pedágio:</strong> R$ ${parseFloat(frete.pedagio).toFixed(2)}</p>
-                <p><strong>Observações:</strong> ${frete.observacoes || 'Nenhuma'}</p>
+                <p><strong>Localização:</strong> ${frete.localizacao || 'Nenhuma'}</p>
+                <p><strong>Observações:</strong> ${frete.observacao || 'Nenhuma'}</p>
             `;
             
             document.getElementById('popupBody').innerHTML = popupContent;
@@ -313,6 +314,10 @@ window.visualizarFrete = async (freteId) => {
         alert("Erro ao carregar detalhes do frete");
     }
 };
+
+function abrirPopup() {
+  document.querySelector('.popup-overlay').style.display = 'flex';
+}
 
 // Função para fechar o popup
 window.fecharPopup = () => {

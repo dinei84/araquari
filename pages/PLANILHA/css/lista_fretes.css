@@ -157,6 +157,7 @@ tr:hover {
 
 /* popup */
 /* Estilos do Popup */
+/* Popup */
 .popup-overlay {
   display: none;
   position: fixed;
@@ -169,14 +170,18 @@ tr:hover {
 }
 
 .popup-content {
-  position: relative;
+  position: absolute;
   background-color: #fff;
-  margin: 5% auto;
   padding: 30px;
   width: 70%;
   max-width: 800px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  
+  /* Centralização perfeita */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .close-btn {
