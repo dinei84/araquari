@@ -119,109 +119,124 @@
   </nav>
 
   <main>
-    <div class="box_datalist">
-        <label for="valordoFrete">Valor do Frete: R$</label>
-        <input id="valordoFrete" type="text" />
-    </div>
-    <div class="box_datalist">
-        <label for="margem">Margem (%):</label>
-        <input id="margem" type="number" value="10" min="0" max="100" />
-    </div>
-    <div class="box_datalist">
-        <label for="estadoSaida">Estado de Saída:</label>
-        <select id="estadoSaida">
-            <option value="SC">SC</option>
-            <option value="PR">PR</option>
-            <option value="MT">MT</option>
-        </select>
-    </div>
-    <div class="box_datalist">
-        <label for="estadoDestino">Destino Final:</label>
-        <select id="estadoDestino">
-            <option value="SC">SC</option>
-            <option value="PR">PR</option>
-            <option value="MT">MT</option>
-            <option value="GO">GO</option>
-            <option value="SP">SP</option>
-            <option value="RJ">RJ</option>
-            <option value="MG">MG</option>
-            <option value="RS">RS</option>
-            <option value="ES">ES</option>
-            <option value="BA">BA</option>
-            <option value="PE">PE</option>
-            <option value="CE">CE</option>
-            <option value="PA">PA</option>
-            <option value="MA">MA</option>
-            <option value="PI">PI</option>
-            <option value="PB">PB</option>
-            <option value="RN">RN</option>
-            <option value="AL">AL</option>
-            <option value="SE">SE</option>
-            <option value="TO">TO</option>
-            <option value="RO">RO</option>
-            <option value="AC">AC</option>
-            <option value="AM">AM</option>
-            <option value="RR">RR</option>
-            <option value="AP">AP</option>
-            <option value="DF">DF</option>
-        </select>
-    </div>
-    <div class="box_datalist">
-        <label for="trocadenfe">Troca de NFe</label>
-        <input type="checkbox" id="trocadenfe" />
-    </div>
-    <div id="trocaCampos" style="display:none;">
-        <div class="box_datalist">
-            <label for="estadoDestinoTroca">Estado de Destino da Troca</label>
-            <select name="estadoDestinoTroca" id="estadoDestinoTroca">
-                <option value="SC">SC</option>
-                <option value="PR">PR</option>
-                <option value="MT">MT</option>
-            </select>
-        </div>
-        <div class="box_datalist">
-            <label for="porcentagemtroca">Porcentagem da Troca (%)</label>
-            <input type="number" id="porcentagemtroca" min="0" max="100" value="70" />
-        </div>
-        <div class="box_datalist">
-            <label for="valorPrimeiraPerna">Frete Empresa 1° Perna: R$</label>
-            <input id="valorPrimeiraPerna" type="text" readonly />
-        </div>
-        <div class="box_datalist">
-            <label for="valorSegundaPerna">Frete Empresa 2° Perna: R$</label>
-            <input id="valorSegundaPerna" type="text" readonly />
-        </div>
-        
-    </div>
-    <div class="botoes">
-        <button id="calcular">Calcular</button>
-        <button id="limpar">Limpar</button>
-    </div>
-    <div class="box_datalist">
-        <label for="taxaICMSField">Taxa de ICMS (%)</label>
-        <input type="text" id="taxaICMSField" readonly>
-    </div>
-    <div id="resultados">
-      <div class="box_datalist" id="boxFreteParaPJ"> <label for="freteParaPJ">Frete Para PJ:R$</label>
-          <input id="freteParaPJ" type="text" readonly />
-      </div>
-      <div class="box_datalist" id="boxFreteParaPF"> <label for="freteParaPF">Frete Para PF: R$</label>
-          <input id="freteParaPF" type="text" readonly />
-      </div>
-  </div>
-
-  
-    <div id="trocaCampos2" style="display: none;">
-        <div class="box_datalist">
-            <label for="freteParaPJ2">Frete Para PJ 2° Perna: R$</label>
-            <input id="freteParaPJ2" type="text" readonly />
-        </div>
-        <div class="box_datalist">
-            <label for="freteParaPF2">Frete Para PF 2° Perna: R$</label>
-            <input id="freteParaPF2" type="text" readonly />
-        </div>
-    </div>
-</main>
+        <div class="box_datalist">
+            <label for="valordoFrete">Valor do Frete: R$</label>
+            <input id="valordoFrete" type="text" />
+        </div>
+        <div class="box_datalist">
+            <label for="margem">Margem (%):</label>
+            <input id="margem" type="number" value="10" min="0" max="100" />
+        </div>
+        <div class="box_datalist">
+            <label for="estadoSaida">Estado de Saída:</label>
+            <select id="estadoSaida">
+                <option value="SC">SC</option>
+                <option value="PR">PR</option>
+                <option value="MT">MT</option>
+                <option value="GO">GO</option>
+                <option value="SP">SP</option>
+                <option value="RJ">RJ</option>
+                <option value="MG">MG</option>
+                <option value="RS">RS</option>
+            </select>
+        </div>
+        <div class="box_datalist">
+            <label for="estadoDestino">Destino Final:</label>
+            <select id="estadoDestino">
+                <option value="SC">SC</option>
+                <option value="PR">PR</option>
+                <option value="MT">MT</option>
+                <option value="GO">GO</option>
+                <option value="SP">SP</option>
+                <option value="RJ">RJ</option>
+                <option value="MG">MG</option>
+                <option value="RS">RS</option>
+                <option value="ES">ES</option>
+                <option value="BA">BA</option>
+                <option value="PE">PE</option>
+                <option value="CE">CE</option>
+                <option value="PA">PA</option>
+                <option value="MA">MA</option>
+                <option value="PI">PI</option>
+                <option value="PB">PB</option>
+                <option value="RN">RN</option>
+                <option value="AL">AL</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+                <option value="RO">RO</option>
+                <option value="AC">AC</option>
+                <option value="AM">AM</option>
+                <option value="RR">RR</option>
+                <option value="AP">AP</option>
+                <option value="DF">DF</option>
+            </select>
+        </div>
+        <div class="box_datalist">
+            <label for="trocadenfe">Troca de NFe</label>
+            <input type="checkbox" id="trocadenfe" />
+        </div>
+        <div id="trocaCampos" style="display:none;">
+            <div class="box_datalist">
+                <label for="estadoDestinoTroca">Estado de Destino da Troca</label>
+                <select name="estadoDestinoTroca" id="estadoDestinoTroca">
+                    <option value="SC">SC</option>
+                    <option value="PR">PR</option>
+                    <option value="MT">MT</option>
+                    <option value="GO">GO</option>
+                    <option value="SP">SP</option>
+                    <option value="RJ">RJ</option>
+                    <option value="MG">MG</option>
+                </select>
+            </div>
+            <div class="box_datalist">
+                <label for="porcentagemtroca">Porcentagem da Troca (%)</label>
+                <input type="number" id="porcentagemtroca" min="0" max="100" value="70" />
+            </div>
+            <div class="box_datalist">
+                <label for="valorPrimeiraPerna">Frete Empresa 1° Perna: R$</label>
+                <input id="valorPrimeiraPerna" type="text" readonly />
+            </div>
+            <div class="box_datalist">
+                <label for="valorSegundaPerna">Frete Empresa 2° Perna: R$</label>
+                <input id="valorSegundaPerna" type="text" readonly />
+            </div>
+    
+        </div>
+        <div class="botoes">
+            <button id="calcular">Calcular</button>
+            <button id="limpar">Limpar</button>
+        </div>
+        <div class="box_datalist">
+            <label for="taxaICMSField">Taxa de ICMS (%)</label>
+            <input type="text" id="taxaICMSField" readonly>
+        </div>
+        <div id="resultados">
+          <div class="box_datalist" id="boxFreteParaPJ"> <label for="freteParaPJ">Frete Para PJ:R$</label>
+              <input id="freteParaPJ" type="text" readonly />
+          </div>
+          <div class="box_datalist" id="boxFreteParaPF"> <label for="freteParaPF">Frete Para PF: R$</label>
+              <input id="freteParaPF" type="text" readonly />
+          </div>
+                <div class="box_datalist" id="boxFreteParaPJ1Perna" style="display: none;"> <label for="freteParaPJ1Perna">Frete Para PJ 1° Perna:R$</label>
+              <input id="freteParaPJ1Perna" type="text" readonly />
+          </div>
+          <div class="box_datalist" id="boxFreteParaPF1Perna" style="display: none;"> <label for="freteParaPF1Perna">Frete Para PF 1° Perna: R$</label>
+              <input id="freteParaPF1Perna" type="text" readonly />
+          </div>
+            </div>
+    
+    
+        <div id="trocaCampos2" style="display: none;">
+            <div class="box_datalist">
+                <label for="freteParaPJ2">Frete Para PJ 2° Perna: R$</label>
+                <input id="freteParaPJ2" type="text" readonly />
+            </div>
+            <div class="box_datalist">
+                <label for="freteParaPF2">Frete Para PF 2° Perna: R$</label>
+                <input id="freteParaPF2" type="text" readonly />
+            </div>
+        </div>
+    </main>
 
   <footer>
     <div class="buttonback">
