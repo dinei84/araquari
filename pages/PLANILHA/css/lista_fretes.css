@@ -73,6 +73,7 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
+  margin: auto;
   background-color: white;
   box-shadow: 0 4px 6px rgba(86, 14, 36, 0.1);
   border-radius: 0.5rem;

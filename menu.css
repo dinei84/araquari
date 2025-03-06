@@ -121,7 +121,7 @@
   
   /* AJUSTE DO CONTEÚDO PRINCIPAL */
   .container {
-    margin-left: 60px;
+    /* margin-left: 60px; */
     transition: margin-left 0.5s ease;
   }
   
