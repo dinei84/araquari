@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     
         const icmsTaxas = {
-            SC: { MT: 7, MT: 7, PR: 12, SC: 17, BA: 7, TO: 7, MT: 7, PI: 7, GO: 7, MA: 7, MG: 12, RJ: 12, RS: 12, SP: 12, NA: 0 },
+            SC: { MT: 7, MS: 7, PR: 12, SC: 17, BA: 7, TO: 7, MT: 7, PI: 7, GO: 7, MA: 7, MG: 12, RJ: 12, RS: 12, SP: 12, NA: 0 },
             PR: { MT: 7, PR: 0, SC: 12 },
             MS: { MS: 0, MT: 12, PA: 12, RO: 12, PI: 12, GO: 12, MA: 12 },
             GO: { MT: 7, PR: 12, SC: 12, GO: 0},
